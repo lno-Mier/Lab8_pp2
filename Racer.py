@@ -14,22 +14,23 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 speed = 12
+speed_coin = 10
 score = 0
 font = pygame.font.SysFont("Verdana", 60)
 font_small = pygame.font.SysFont("Verdana", 20)
 game_over = font.render("Game Over", True, BLACK)
 
-player_image = pygame.image.load("PygameTutorial_3_0/Player.png")
+player_image = pygame.image.load("PygameTutorial_3_0\\Player.png")
 player_image = pygame.transform.scale(player_image, (50,100))
-enemy_image = pygame.image.load("PygameTutorial_3_0/Enemy.png")
+enemy_image = pygame.image.load("PygameTutorial_3_0\\Enemy.png")
 enemy_image = pygame.transform.scale(enemy_image, (50,100))
-coin_image = pygame.image.load("PygameTutorial_3_0/coin.gif")
+coin_image = pygame.image.load("PygameTutorial_3_0\\coin.gif")
 coin_image = pygame.transform.scale(coin_image, (30,30))
-background_image = pygame.image.load("PygameTutorial_3_0/AnimatedStreet.png")
+background_image = pygame.image.load("PygameTutorial_3_0\\AnimatedStreet.png")
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-crash_sound = pygame.mixer.Sound("PygameTutorial_3_0/crash.wav")
-background_sound = pygame.mixer.Sound("PygameTutorial_3_0/background.wav")
+crash_sound = pygame.mixer.Sound("PygameTutorial_3_0\\crash.wav")
+background_sound = pygame.mixer.Sound("PygameTutorial_3_0\\background.wav")
 background_sound.play(-1)
 
 class Car:
@@ -65,6 +66,12 @@ class Coin:
         if self.rect.top > HEIGHT:
             self.rect.y = -100
             self.rect.x = random.choice([75, 175, 275])
+            
+    def update_coin(self):
+        self.rect.y += speed_coin
+        if self.rect.top > HEIGHT:
+            self.rect.y = -100
+            self.rect.x = random.choice([75, 175, 275])
     
     def draw(self):
         screen.blit(self.image, self.rect)  
@@ -94,10 +101,10 @@ while running:
             running = False
     
     for coin in coins:
-        coin.update()
+        coin.update_coin()
         coin.draw()
         if player.rect.colliderect(coin.rect):
-            score += 1
+            score += random.randint(1, 5)
             coin.rect.y = -100
             coin.rect.x = random.choice([75, 175, 275])
     
